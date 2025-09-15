@@ -9,7 +9,9 @@ const UserRegistration = ({ onBack }) => {
     contact: '',
     address: '',
     certificationsNumber: '',
-    licenseNumber: ''
+    licenseNumber: '',
+    password: '',
+    confirmPassword: ''
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -35,6 +37,18 @@ const UserRegistration = ({ onBack }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Password validation
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    
+    if (formData.password.length < 6) {
+      alert('Password must be at least 6 characters long!');
+      return;
+    }
+    
     // Here you would typically send the data to a server
     console.log('User/Organization Registration Data:', formData);
     setIsSubmitted(true);
@@ -170,6 +184,39 @@ const UserRegistration = ({ onBack }) => {
                     onChange={handleChange}
                     required
                     placeholder="Enter license number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h3>Account Security</h3>
+              
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="password">Password *</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    minLength="6"
+                    placeholder="Enter password (min 6 characters)"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm Password *</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    minLength="6"
+                    placeholder="Confirm your password"
                   />
                 </div>
               </div>

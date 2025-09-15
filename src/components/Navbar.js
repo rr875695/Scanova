@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ContactModal from './ContactModal';
 import './Navbar.css';
 
 const Navbar = ({ 
@@ -9,21 +10,53 @@ const Navbar = ({
   onRegisterType, 
   isLoggedIn,
   showLoginDropdown,
-  onLoginClick: onLoginClickProp,
-  onLoginType
+  onLoginType,
+  onHomeClick
 }) => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   return (
     <nav className="navbar">
       <div className="container">
         <div className="navbar-content">
           <div className="navbar-brand">
-            <h1>Scanova</h1>
+            <h1 onClick={onHomeClick} style={{cursor: 'pointer'}}>Scanova</h1>
           </div>
           
           <div className="navbar-menu">
             <div className="navbar-item">
               <button 
-                className="btn btn-primary navbar-btn"
+                className="btn btn-secondary navbar-btn home-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onHomeClick();
+                  // Smooth scroll to top of page
+                  setTimeout(() => {
+                    window.scrollTo({ 
+                      top: 0, 
+                      behavior: 'smooth' 
+                    });
+                  }, 100);
+                }}
+              >
+                Home
+              </button>
+            </div>
+            
+            <div className="navbar-item">
+              <button 
+                className="btn btn-secondary navbar-btn contact-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsContactModalOpen(true);
+                }}
+              >
+                Contact
+              </button>
+            </div>
+            
+            <div className="navbar-item">
+              <button 
+                className="btn btn-secondary navbar-btn"
                 onClick={onRegisterClick}
               >
                 Register
@@ -84,6 +117,11 @@ const Navbar = ({
           </div>
         </div>
       </div>
+      
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </nav>
   );
 };

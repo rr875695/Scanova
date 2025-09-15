@@ -44,7 +44,15 @@ const Login = ({ onLoginSuccess, onBack, loginType, onRegisterClick }) => {
       // For demo purposes, accept any email/password combination
       if (formData.email && formData.password && formData.loginType) {
         console.log('Login successful:', formData);
-        onLoginSuccess();
+        
+        // Extract name from email for demo purposes
+        const name = formData.email.split('@')[0];
+        const userData = {
+          name: name,
+          type: formData.loginType
+        };
+        
+        onLoginSuccess(userData);
       } else {
         setError('Please select login type and enter both email and password');
       }
